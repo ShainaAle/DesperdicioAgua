@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco-Aqua: Desperdicio de Agua</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        deepBlue: '#0284c7',     // Azul Océano
+                        brightOrange: '#f97316', // Naranja Acción
+                        softSky: '#e0f2fe',      // Azul Hielo
+                        sunny: '#fff7ed',        // Crema Naranja
+                        darkNavy: '#0c4a6e',     // Azul Marino
+                        lightOrange: '#ffedd5'   // Naranja muy claro
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts: Lilita One (Divertida) y Comfortaa (Relajada) -->
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Comfortaa', cursive;
+            background-color: #e0f2fe;
+            color: #334155;
+        }
+        h1, h2, h3, h4, .font-pop {
+            font-family: 'Lilita One', cursive;
+            letter-spacing: 0.05em;
+        }
+        .btn-cartoon {
+            transition: all 0.2s;
+            border-bottom-width: 4px;
+        }
+        .btn-cartoon:active {
+            transform: translateY(2px);
+            border-bottom-width: 0px;
+            margin-top: 2px;
+        }
+        /* Elementos Decorativos */
+        .card-cartoon {
+            border: 4px solid #0c4a6e;
+            box-shadow: 6px 6px 0px 0px #f97316;
+            border-radius: 2rem;
+            background-color: white;
+        }
+        .card-blue {
+            border: 4px solid #0c4a6e;
+            box-shadow: 6px 6px 0px 0px #0284c7;
+            border-radius: 2rem;
+            background-color: #fff7ed;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(3deg); }
+        }
+        .float-anim { animation: float 3.5s infinite ease-in-out; }
+        .water-drop-anim { animation: drip 1.2s infinite linear; }
+        @keyframes drip {
+            0% { transform: translateY(-20px); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(120px); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- NAVBAR -->
+    <nav class="sticky top-0 z-50 bg-white border-b-4 border-brightOrange p-3 shadow-lg">
+        <div class="max-w-6xl mx-auto flex justify-between items-center px-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-deepBlue p-2.5 rounded-2xl rotate-3 shadow-md">
+                    <i class="fa-solid fa-droplet text-white text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl text-deepBlue leading-none">ECO-AQUA</h1>
+                    <span class="text-xs font-bold text-brightOrange tracking-widest uppercase">Grupo 206</span>
+                </div>
+            </div>
+            <div class="hidden lg:flex gap-4 items-center">
+                <a href="#fase1" class="text-sm font-bold text-slate-600 hover:text-deepBlue transition-colors">Ideación</a>
+                <a href="#ensayo" class="text-sm font-bold text-slate-600 hover:text-deepBlue transition-colors">Ensayo</a>
+                <a href="#narrativas" class="text-sm font-bold text-slate-600 hover:text-deepBlue transition-colors">Narrativas</a>
+                <a href="#graficas" class="text-sm font-bold text-slate-600 hover:text-deepBlue transition-colors">Estadísticas</a>
+                <a href="#trivia" class="btn-cartoon bg-brightOrange border-orange-700 text-white px-5 py-2 rounded-xl text-sm font-bold shadow-sm">
+                    ¡JUGAR TRIVIA!
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="relative pt-16 pb-24 px-4 overflow-hidden bg-softSky">
+        <!-- Decoraciones -->
+        <div class="absolute top-10 left-10 text-brightOrange/20 text-6xl float-anim"><i class="fa-solid fa-cloud"></i></div>
+        <div class="absolute bottom-10 right-10 text-deepBlue/20 text-8xl float-anim" style="animation-delay: 1s;"><i class="fa-solid fa-droplet"></i></div>
+
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <span class="bg-white text-deepBlue px-5 py-2 rounded-full text-xs font-bold border-2 border-darkNavy shadow-[3px_3px_0px_0px_#f97316] uppercase tracking-wider">
+                Proyecto de Cultura Digital
+            </span>
+            <h1 class="text-5xl sm:text-7xl mt-8 leading-tight text-darkNavy drop-shadow-sm">
+                DESPERDICIO DE AGUA<br>
+                <span class="text-brightOrange text-shadow">EN LA ESCUELA</span>
+            </h1>
+            <p class="mt-6 text-base sm:text-lg text-slate-700 font-bold max-w-2xl mx-auto bg-white/60 p-4 rounded-2xl border-2 border-white backdrop-blur-sm">
+                Investigación sobre las causas, consecuencias y posibles soluciones al mal uso del agua en nuestro entorno educativo.
+            </p>
+            
+            <div class="mt-8 flex flex-wrap justify-center gap-4 text-sm font-bold text-slate-700">
+                <span class="px-4 py-2 bg-white rounded-xl border-2 border-darkNavy shadow-sm"><i class="fa-solid fa-user text-deepBlue mr-2"></i> Evelyn Gabriela Martínez Pozas</span>
+                <span class="px-4 py-2 bg-white rounded-xl border-2 border-darkNavy shadow-sm"><i class="fa-solid fa-user text-brightOrange mr-2"></i> Mauro Zair Ramírez Perea</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- NUEVA SECCIÓN: FASE 1 - HERRAMIENTAS Y LLUVIA DE IDEAS -->
+    <section id="fase1" class="py-16 bg-white border-y-4 border-darkNavy">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-4xl text-darkNavy text-center mb-4">Fase 1: Primeros Pasos</h2>
+            <p class="text-center text-slate-500 font-bold mb-12">Herramientas digitales libres y nuestras primeras ideas ecológicas.</p>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Herramientas Digitales -->
+                <div class="space-y-6">
+                    <h3 class="text-2xl text-brightOrange font-pop">Nuestras Herramientas (TICCAD)</h3>
+                    
+                    <div class="card-blue p-6 space-y-3">
+                        <div class="flex items-center gap-3">
+                            <span class="bg-deepBlue text-white w-10 h-10 flex items-center justify-center rounded-xl text-xl"><i class="fa-solid fa-shield-halved"></i></span>
+                            <h4 class="text-xl text-darkNavy font-pop">CryptPad</h4>
+                        </div>
+                        <p class="text-sm font-bold text-slate-600 leading-relaxed">
+                            Suite ofimática de código abierto y gratuita. Prioriza la privacidad y el trabajo colaborativo. A diferencia de Google Docs, cifra todos tus datos de extremo a extremo en tu navegador.
+                        </p>
+                    </div>
+
+                    <div class="card-blue p-6 space-y-3">
+                        <div class="flex items-center gap-3">
+                            <span class="bg-brightOrange text-white w-10 h-10 flex items-center justify-center rounded-xl text-xl"><i class="fa-solid fa-pen-nib"></i></span>
+                            <h4 class="text-xl text-darkNavy font-pop">Riseup Pad</h4>
+                        </div>
+                        <p class="text-sm font-bold text-slate-600 leading-relaxed">
+                            Editor de texto en línea y gratuito para escribir colaborativamente en tiempo real. Mantenido por el colectivo Riseup, enfocado en privacidad y software libre.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Narración y Lluvia de Ideas -->
+                <div class="space-y-6">
+                    <h3 class="text-2xl text-deepBlue font-pop">Narración Grupal Diaria</h3>
+                    <div class="bg-softSky rounded-2xl p-4 border-2 border-darkNavy shadow-sm space-y-2">
+                        <p class="text-sm font-bold text-slate-700"><i class="fa-solid fa-plug text-brightOrange"></i> "Yo desconecto el cargador cuando no lo uso."</p>
+                        <p class="text-sm font-bold text-slate-700"><i class="fa-solid fa-jar text-deepBlue"></i> "Yo reutilizo los frascos de vidrio para guardar comida."</p>
+                        <p class="text-sm font-bold text-slate-700"><i class="fa-solid fa-tooth text-sky-500"></i> "Yo todavía olvido cerrar la llave al lavarme los dientes, pero estoy mejorando."</p>
+                    </div>
+
+                    <h3 class="text-2xl text-deepBlue font-pop mt-6">Lluvia de Ideas de Soluciones</h3>
+                    <div class="grid grid-cols-2 gap-3 text-xs font-bold">
+                        <div class="bg-sunny border-2 border-brightOrange p-3 rounded-xl">
+                            <span class="text-brightOrange uppercase tracking-wider block mb-1">Transporte</span>
+                            Caminar, bici o transporte público.
+                        </div>
+                        <div class="bg-softSky border-2 border-deepBlue p-3 rounded-xl">
+                            <span class="text-deepBlue uppercase tracking-wider block mb-1">Agua</span>
+                            Duchas de 5 min, juntar agua fría.
+                        </div>
+                        <div class="bg-lightOrange border-2 border-brightOrange p-3 rounded-xl">
+                            <span class="text-brightOrange uppercase tracking-wider block mb-1">Basura</span>
+                            Separar residuos, hacer composta, no usar popotes.
+                        </div>
+                        <div class="bg-sky-100 border-2 border-deepBlue p-3 rounded-xl">
+                            <span class="text-deepBlue uppercase tracking-wider block mb-1">Consumo</span>
+                            Llevar termo/tupper, reparar ropa.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EL SIMULADOR INTERACTIVO -->
+    <section class="py-16 bg-sunny relative overflow-hidden">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="card-cartoon p-8 md:p-12 bg-white relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                    <!-- Lado Visual -->
+                    <div class="bg-darkNavy rounded-[2rem] p-8 h-80 flex flex-col items-center justify-center relative overflow-hidden border-4 border-deepBlue">
+                        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px]"></div>
+                        <div class="relative z-10 text-center">
+                            <i class="fa-solid fa-faucet text-7xl text-slate-300"></i>
+                            <div id="drop-container" class="absolute left-1/2 -translate-x-1/2 top-14">
+                                <i class="fa-solid fa-droplet text-4xl text-softSky water-drop-anim"></i>
+                            </div>
+                            <div class="mt-20">
+                                <span class="block text-brightOrange text-xs font-bold uppercase tracking-widest">Desperdicio Total:</span>
+                                <h2 class="text-5xl text-white font-mono mt-2"><span id="litros">0.0</span>L</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lado Interactivo -->
+                    <div class="space-y-6">
+                        <h2 class="text-4xl text-darkNavy leading-tight">¡Patrulla del Agua!<br><span class="text-brightOrange">Cierra la llave</span></h2>
+                        <p class="text-sm font-bold text-slate-500 bg-slate-50 p-4 rounded-xl border-2 border-slate-200">
+                            "Si dejas corriendo el agua al enjabonarte las manos, desperdicias 6 litros. En una escuela de 500 alumnos son 3,000 litros al día tirados."
+                        </p>
+                        <button onclick="stopLeak(this)" class="w-full btn-cartoon bg-brightOrange border-orange-800 text-white p-4 rounded-2xl font-bold flex items-center justify-center gap-3 text-lg">
+                            <span>¡REPARAR FUGA AHORA!</span>
+                            <i class="fa-solid fa-wrench"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NUEVA SECCIÓN: FASE 4 - EL ENSAYO COMPLETO -->
+    <section id="ensayo" class="py-20 bg-softSky border-y-4 border-darkNavy">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <span class="bg-deepBlue text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest shadow-sm">Fase 4</span>
+                <h2 class="text-4xl text-darkNavy mt-4">El Ensayo Escolar</h2>
+                <p class="font-bold text-slate-600 mt-2">El desperdicio de agua en la escuela: un problema que podemos prevenir</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Objetivos -->
+                <div class="card-cartoon p-6 bg-white space-y-4">
+                    <h3 class="text-2xl text-brightOrange font-pop"><i class="fa-solid fa-bullseye mr-2"></i> Objetivo y Propósito</h3>
+                    <p class="text-sm font-bold text-slate-600">
+                        <strong>Objetivo:</strong> Concientizar a la comunidad escolar sobre la importancia del cuidado del agua, promoviendo acciones responsables.
+                    </p>
+                    <p class="text-sm font-bold text-slate-600">
+                        <strong>Propósito:</strong> Investigar las causas y consecuencias del desperdicio en el entorno escolar utilizando herramientas digitales.
+                    </p>
+                </div>
+
+                <!-- Introducción -->
+                <div class="card-cartoon p-6 bg-white space-y-4">
+                    <h3 class="text-2xl text-deepBlue font-pop"><i class="fa-solid fa-book-open mr-2"></i> Introducción</h3>
+                    <p class="text-sm font-bold text-slate-600">
+                        El agua es vital, pero se desperdician grandes cantidades. En escuelas es común ver llaves abiertas, fugas y poco cuidado. Esto provoca problemas ambientales y escasez futura. Por ello, debemos fomentar hábitos responsables.
+                    </p>
+                </div>
+
+                <!-- Causas y Consecuencias -->
+                <div class="card-cartoon p-6 bg-sunny space-y-4 md:col-span-2">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-2xl text-darkNavy font-pop mb-3"><i class="fa-solid fa-magnifying-glass mr-2"></i> Causas</h3>
+                            <ul class="text-sm font-bold text-slate-600 space-y-2 list-disc pl-5">
+                                <li>Llaves abiertas innecesariamente.</li>
+                                <li>Fugas en baños o tuberías.</li>
+                                <li>Uso excesivo de agua al limpiar.</li>
+                                <li>Falta de conciencia ambiental.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl text-brightOrange font-pop mb-3"><i class="fa-solid fa-triangle-exclamation mr-2"></i> Consecuencias</h3>
+                            <ul class="text-sm font-bold text-slate-600 space-y-2 list-disc pl-5">
+                                <li>Desperdicio de recursos naturales.</li>
+                                <li>Aumento en el consumo.</li>
+                                <li>Escasez de agua a largo plazo.</li>
+                                <li>Contaminación por uso irresponsable.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Soluciones y Conclusión -->
+                <div class="card-cartoon p-6 bg-deepBlue text-white space-y-4 md:col-span-2 shadow-[6px_6px_0px_0px_#0c4a6e]">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-2xl text-white font-pop mb-3"><i class="fa-solid fa-lightbulb text-brightOrange mr-2"></i> Posibles Soluciones</h3>
+                            <ul class="text-sm font-bold text-sky-100 space-y-2 list-disc pl-5">
+                                <li>Reparar fugas rápidamente.</li>
+                                <li>Cerrar correctamente las llaves.</li>
+                                <li>Promover campañas de concientización.</li>
+                                <li>Utilizar el agua de manera responsable.</li>
+                                <li>Fomentar hábitos ecológicos.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl text-white font-pop mb-3"><i class="fa-solid fa-flag-checkered text-brightOrange mr-2"></i> Conclusión</h3>
+                            <p class="text-sm font-bold text-sky-100">
+                                Acciones pequeñas, como dejar una llave abierta, generan un impacto negativo masivo. Sin embargo, mediante hábitos responsables y trabajo colaborativo (usando herramientas digitales) es posible reducir este problema y construir un entorno más sustentable.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FASE 2: AUDITORÍA DE NARRATIVAS (MATRIZ) -->
+    <section id="narrativas" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <span class="bg-brightOrange text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest shadow-sm">Fase 2</span>
+                <h2 class="text-4xl text-darkNavy mt-4">Auditoría de Narrativas</h2>
+                <p class="font-bold text-slate-500 mt-2">Comparando cómo se transmite la información ambiental.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- Oral -->
+                <div class="card-blue p-6 transform -rotate-1 hover:rotate-0 transition-transform flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 bg-brightOrange rounded-2xl flex items-center justify-center text-white text-2xl mb-4 border-2 border-darkNavy shadow-sm">
+                            <i class="fa-solid fa-comments"></i>
+                        </div>
+                        <h3 class="text-2xl mb-2 text-darkNavy font-pop">Versión Oral</h3>
+                        
+                        <div class="space-y-3 mt-4 text-xs font-bold text-slate-600">
+                            <p><strong class="text-brightOrange">Fuente:</strong> Entrevista a una compañera de salón.</p>
+                            <p><strong class="text-brightOrange">Narrativa:</strong> "No hay agua en bebederos porque dejan llaves abiertas."</p>
+                            <p><strong class="text-brightOrange">Estructura:</strong> Relato directo ("ayer encontré tres llaves").</p>
+                            <p><strong class="text-brightOrange">Confiabilidad:</strong> Basado en experiencia real diaria.</p>
+                            <p><strong class="text-brightOrange">TICCAD:</strong> Grabación en audio.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Digital -->
+                <div class="card-blue p-6 transform hover:-translate-y-2 transition-transform flex flex-col justify-between bg-softSky">
+                    <div>
+                        <div class="w-14 h-14 bg-deepBlue rounded-2xl flex items-center justify-center text-white text-2xl mb-4 border-2 border-darkNavy shadow-sm">
+                            <i class="fa-solid fa-mobile-screen"></i>
+                        </div>
+                        <h3 class="text-2xl mb-2 text-darkNavy font-pop">Versión Digital</h3>
+                        
+                        <div class="space-y-3 mt-4 text-xs font-bold text-slate-600">
+                            <p><strong class="text-deepBlue">Fuente:</strong> TikTok "EcoTips" + Web de la SEP.</p>
+                            <p><strong class="text-deepBlue">Narrativa:</strong> Reto #CierraLaLlave (3000 litros al día) + Leyenda de fantasmas.</p>
+                            <p><strong class="text-deepBlue">Estructura:</strong> Video 30s + meme + llamado a la acción.</p>
+                            <p><strong class="text-deepBlue">Confiabilidad:</strong> Cita datos de Conagua, pero el creador del TikTok es anónimo.</p>
+                            <p><strong class="text-deepBlue">TICCAD:</strong> Canva para hacer infografías.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Escrita -->
+                <div class="card-blue p-6 transform rotate-1 hover:rotate-0 transition-transform flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 bg-slate-700 rounded-2xl flex items-center justify-center text-white text-2xl mb-4 border-2 border-darkNavy shadow-sm">
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </div>
+                        <h3 class="text-2xl mb-2 text-darkNavy font-pop">Versión Escrita</h3>
+                        
+                        <div class="space-y-3 mt-4 text-xs font-bold text-slate-600">
+                            <p><strong class="text-slate-800">Fuente:</strong> Manual Cultura del Agua (CONAGUA/SEP 2022).</p>
+                            <p><strong class="text-slate-800">Narrativa:</strong> Relato adaptado del dios Tláloc castigando escuelas prehispánicas.</p>
+                            <p><strong class="text-slate-800">Estructura:</strong> Texto formal con tablas de consumo y NOM-001.</p>
+                            <p><strong class="text-slate-800">Confiabilidad:</strong> Documento oficial verificable.</p>
+                            <p><strong class="text-slate-800">TICCAD:</strong> Escaneo del manual y comparativa en tablas.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FASE 3: INFOGRAFÍA / CÓMO AYUDAR -->
+    <section class="py-16 bg-sunny border-t-4 border-brightOrange">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-center text-4xl text-brightOrange font-pop mb-10">¿Cómo podemos ayudar?</h2>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                <div class="bg-white border-2 border-darkNavy p-4 rounded-3xl shadow-[4px_4px_0px_0px_#f97316]">
+                    <i class="fa-solid fa-hand-holding-droplet text-4xl text-deepBlue mb-2"></i>
+                    <p class="text-xs font-bold text-slate-700">No dejes la llave abierta</p>
+                </div>
+                <div class="bg-white border-2 border-darkNavy p-4 rounded-3xl shadow-[4px_4px_0px_0px_#0284c7]">
+                    <i class="fa-solid fa-wrench text-4xl text-brightOrange mb-2"></i>
+                    <p class="text-xs font-bold text-slate-700">Si ves una llave abierta, ciérrala</p>
+                </div>
+                <div class="bg-white border-2 border-darkNavy p-4 rounded-3xl shadow-[4px_4px_0px_0px_#f97316]">
+                    <i class="fa-solid fa-stopwatch text-4xl text-deepBlue mb-2"></i>
+                    <p class="text-xs font-bold text-slate-700">No demores mucho lavando manos</p>
+                </div>
+                <div class="bg-white border-2 border-darkNavy p-4 rounded-3xl shadow-[4px_4px_0px_0px_#0284c7]">
+                    <i class="fa-solid fa-ban text-4xl text-brightOrange mb-2"></i>
+                    <p class="text-xs font-bold text-slate-700">¡No desperdicies agua!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FASE 4: GRÁFICAS ESTADÍSTICAS (AMPLIADO) -->
+    <section id="graficas" class="py-20 bg-softSky border-y-4 border-darkNavy">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl text-darkNavy font-pop">Análisis de Encuestas</h2>
+                <p class="font-bold text-slate-600 mt-2">Resultados reales obtenidos de la comunidad escolar.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                
+                <!-- Gráfica 1 -->
+                <div class="card-cartoon p-6 bg-white">
+                    <h4 class="text-center font-pop text-deepBlue mb-2 text-xl">¿Has visto llaves abiertas innecesariamente?</h4>
+                    <div class="h-64"><canvas id="chart1"></canvas></div>
+                    <p class="text-xs font-bold text-slate-500 text-center mt-4">Casi todos los encuestados (11 personas) lo han presenciado.</p>
+                </div>
+
+                <!-- Gráfica 2 -->
+                <div class="card-cartoon p-6 bg-white">
+                    <h4 class="text-center font-pop text-brightOrange mb-2 text-xl">¿Has reportado alguna fuga en la escuela?</h4>
+                    <div class="h-64"><canvas id="chart2"></canvas></div>
+                    <p class="text-xs font-bold text-slate-500 text-center mt-4">La mayoría (4 personas) ve las fugas pero no hace nada al respecto.</p>
+                </div>
+
+                <!-- Gráfica 3 -->
+                <div class="card-cartoon p-6 bg-white">
+                    <h4 class="text-center font-pop text-deepBlue mb-2 text-xl">¿Qué acción reduciría el desperdicio?</h4>
+                    <div class="h-64"><canvas id="chart3"></canvas></div>
+                    <p class="text-xs font-bold text-slate-500 text-center mt-4">Reparar las fugas rápidamente es la opción más apoyada.</p>
+                </div>
+
+                <!-- Gráfica 4 -->
+                <div class="card-cartoon p-6 bg-white">
+                    <h4 class="text-center font-pop text-brightOrange mb-2 text-xl">¿Participarías en campañas del agua?</h4>
+                    <div class="h-64"><canvas id="chart4"></canvas></div>
+                    <p class="text-xs font-bold text-slate-500 text-center mt-4">¡Excelente disposición! 12 de 13 alumnos están dispuestos a ayudar.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- TRIVIA INTERACTIVA (PREGUNTAS AMPLIADAS) -->
+    <section id="trivia" class="py-20 bg-darkNavy text-white border-b-8 border-brightOrange">
+        <div class="max-w-3xl mx-auto px-4">
+            <div class="text-center mb-10">
+                <span class="bg-brightOrange text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest shadow-sm">Eco-Juego</span>
+                <h2 class="text-4xl text-white font-pop mt-4">Eco-Trivia 206</h2>
+                <p class="text-sky-200 font-bold mt-2">Prueba cuánto aprendiste sobre nuestro proyecto.</p>
+            </div>
+
+            <div class="card-cartoon bg-deepBlue border-4 border-white p-8 text-center shadow-[10px_10px_0px_0px_#f97316]">
+                <div id="trivia-box">
+                    <h3 id="question" class="text-2xl font-pop mb-8">Cargando pregunta...</h3>
+                    <div id="options" class="grid gap-4">
+                        <!-- Opciones dinámicas -->
+                    </div>
+                </div>
+                <div id="score-board" class="mt-8 pt-6 border-t border-white/20 flex justify-between items-center text-sm font-bold">
+                    <span class="text-brightOrange bg-white px-4 py-2 rounded-full border-2 border-darkNavy">Puntos: <span id="pts">0</span></span>
+                    <span id="feedback" class="text-white text-lg font-pop tracking-wider">¡Suerte!</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-100 py-12">
+        <div class="max-w-4xl mx-auto text-center px-4">
+            <div class="flex justify-center gap-4 mb-6">
+                <div class="w-12 h-12 bg-deepBlue rounded-xl border-2 border-darkNavy flex items-center justify-center text-white rotate-6 shadow-sm"><i class="fa-solid fa-droplet"></i></div>
+                <div class="w-12 h-12 bg-brightOrange rounded-xl border-2 border-darkNavy flex items-center justify-center text-white -rotate-6 shadow-sm"><i class="fa-solid fa-leaf"></i></div>
+            </div>
+            <h3 class="text-3xl text-darkNavy font-pop tracking-wide">¡El agua es vida, cuídala!</h3>
+            <p class="text-slate-500 mt-4 text-sm font-bold">
+                Materia de Cultura Digital • Bachillerato General<br>
+                Elaborado por Evelyn Gabriela Martínez Pozas y Mauro Zair Ramírez Perea
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // LÓGICA DEL SIMULADOR
+        let litrosTotal = 0;
+        let leakActive = true;
+        const counterEl = document.getElementById('litros');
+        const dropEl = document.getElementById('animated-drop');
+
+        const leakInterval = setInterval(() => {
+            if(leakActive) {
+                litrosTotal += 0.15;
+                counterEl.innerText = litrosTotal.toFixed(1);
+            }
+        }, 300);
+
+        function stopLeak(btn) {
+            if(!leakActive) return;
+            leakActive = false;
+            document.getElementById('drop-container').innerHTML = '<i class="fa-solid fa-circle-check text-4xl text-brightOrange"></i>';
+            btn.innerHTML = '¡AGUA SALVADA! 🌊✅';
+            btn.className = "w-full btn-cartoon bg-green-500 border-green-700 text-white p-4 rounded-2xl font-bold flex items-center justify-center text-lg shadow-inner";
+            alert("¡Bien hecho! Reparar las fugas rápidamente es una de las soluciones propuestas en nuestro ensayo.");
+        }
+
+        // LÓGICA TRIVIA (Basada 100% en el PDF)
+        const questions = [
+            { q: "¿Cuántos litros de agua se tiran si dejas la llave abierta al enjabonarte (Reto #CierraLaLlave)?", a: ["2 litros", "6 litros", "10 litros"], correct: 1 },
+            { q: "¿Qué editor de texto en línea usamos que fue creado por el colectivo Riseup?", a: ["Word", "CryptPad", "Riseup Pad"], correct: 2 },
+            { q: "¿Cuál dios prehispánico mencionamos en la versión escrita del manual de CONAGUA?", a: ["Quetzalcóatl", "Tláloc", "Huitzilopochtli"], correct: 1 },
+            { q: "Según nuestras encuestas, ¿cuántos alumnos SÍ estarían dispuestos a participar en campañas?", a: ["12", "5", "Todos"], correct: 0 },
+            { q: "En la lluvia de ideas, ¿qué solución propusimos para la categoría 'Basura'?", a: ["Ir en bici", "Separar residuos y no usar popotes", "Apagar focos LED"], correct: 1 }
+        ];
+
+        let qIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const data = questions[qIndex];
+            document.getElementById('question').innerText = data.q;
+            const optionsEl = document.getElementById('options');
+            optionsEl.innerHTML = '';
+            data.a.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = "btn-cartoon bg-white text-darkNavy border-2 border-darkNavy hover:bg-softSky p-4 rounded-2xl text-left font-bold w-full transition-colors text-sm sm:text-base";
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(i);
+                optionsEl.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(i) {
+            const feedback = document.getElementById('feedback');
+            if(i === questions[qIndex].correct) {
+                score += 10;
+                feedback.innerText = "¡CORRECTO! 🌟";
+                feedback.className = "text-green-300 text-lg font-pop";
+            } else {
+                feedback.innerText = "¡INCORRECTO! ❌";
+                feedback.className = "text-red-300 text-lg font-pop";
+            }
+            document.getElementById('pts').innerText = score;
+            qIndex = (qIndex + 1) % questions.length;
+            setTimeout(() => {
+                feedback.innerText = "¡Siguiente!";
+                feedback.className = "text-white text-lg font-pop";
+                loadQuestion();
+            }, 1500);
+        }
+
+        // GRÁFICAS (CHART.JS) - Datos exactos del PDF
+        window.onload = () => {
+            loadQuestion();
+            
+            Chart.defaults.font.family = "'Comfortaa', cursive";
+            Chart.defaults.color = '#334155';
+
+            // Gráfica 1: Vistas llaves abiertas (11 si, 2 no)
+            new Chart(document.getElementById('chart1'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Sí, lo he visto', 'No lo he visto'],
+                    datasets: [{
+                        data: [11, 2],
+                        backgroundColor: ['#0284c7', '#cbd5e1'],
+                        borderColor: '#0c4a6e',
+                        borderWidth: 2
+                    }]
+                },
+                options: { maintainAspectRatio: false, cutout: '60%' }
+            });
+
+            // Gráfica 2: Reporte de fugas (2 si arreglaron, 1 si nada, 4 no, 2 no vi)
+            new Chart(document.getElementById('chart2'), {
+                type: 'bar',
+                data: {
+                    labels: ['Arreglaron', 'No hicieron nada', 'Vi y no reporté', 'No vi fuga'],
+                    datasets: [{
+                        label: 'Votos',
+                        data: [2, 1, 4, 2],
+                        backgroundColor: ['#10b981', '#ef4444', '#f97316', '#94a3b8'],
+                        borderColor: '#0c4a6e',
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: { maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+            });
+
+            // Gráfica 3: Acciones que reducirían (4 reparar, 1 campañas, 2 cambiar llaves, 1 sanciones)
+            new Chart(document.getElementById('chart3'), {
+                type: 'bar',
+                data: {
+                    labels: ['Reparar', 'Cambiar Llaves', 'Campañas', 'Sanciones'],
+                    datasets: [{
+                        label: 'Votos',
+                        data: [4, 2, 1, 1],
+                        backgroundColor: '#0284c7',
+                        borderColor: '#0c4a6e',
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: { maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true } } }
+            });
+
+            // Gráfica 4: Dispuesto a participar (12 si, 1 no)
+            new Chart(document.getElementById('chart4'), {
+                type: 'pie',
+                data: {
+                    labels: ['Sí participaría', 'No participaría'],
+                    datasets: [{
+                        data: [12, 1],
+                        backgroundColor: ['#f97316', '#94a3b8'],
+                        borderColor: '#0c4a6e',
+                        borderWidth: 2
+                    }]
+                },
+                options: { maintainAspectRatio: false }
+            });
+        };
+    </script>
+</body>
+</html>
